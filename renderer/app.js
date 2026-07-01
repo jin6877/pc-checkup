@@ -121,9 +121,9 @@ function render(d) {
 // 플랜 종류별 현재 상태 요약 줄
 function planCurrent(title, p) {
   if (title.includes('램')) {
-    const slotTxt = p.slots ? ` · 슬롯 ${p.populated}/${p.slots} 사용` : '';
-    const maxTxt = p.maxGB ? ` · 최대 ${p.maxGB}GB` : '';
-    return `${escapeHtml(p.config)}${p.spec ? ` (${escapeHtml(p.spec)})` : ''}${slotTxt}${maxTxt}`;
+    const modTxt = p.populated ? ` · ${p.populated}개 장착` : '';
+    const maxTxt = p.maxGB ? ` · 최대 ${p.maxGB}GB 지원` : '';
+    return `${escapeHtml(p.config)}${p.spec ? ` (${escapeHtml(p.spec)})` : ''}${modTxt}${maxTxt}`;
   }
   if (title.includes('CPU')) {
     return `${escapeHtml(p.brand)}${p.cores ? ` · ${p.cores}코어` : ''}${p.socket ? ` · 소켓 ${escapeHtml(p.socket)}` : ''}`;
@@ -158,6 +158,7 @@ function buyCard(icon, title, p) {
       </div>
       ${buyHtml}
       <p class="buy-reason">${escapeHtml(p.reason)}</p>
+      ${p.slotCaveat ? `<p class="buy-note">ℹ️ 총 슬롯 수는 Windows가 BIOS 기록값을 그대로 주는데, 실제 물리 슬롯보다 많게 나오는 보드가 흔해서 여기선 표시하지 않았어요.</p>` : ''}
     </div>`;
 }
 
