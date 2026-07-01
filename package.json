@@ -1,6 +1,6 @@
 {
   "name": "pc-checkup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "지금 켜둔 프로그램들을 점검해서 내 PC에 맞는 사양(특히 램)을 추천해주는 데스크톱 진단 도구",
   "main": "main.js",
   "scripts": {

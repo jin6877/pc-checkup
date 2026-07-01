@@ -21,14 +21,19 @@ function createWindow() {
 
 // 현재 시스템 상태를 수집해서 진단 결과를 돌려준다.
 ipcMain.handle('scan', async () => {
-  const [mem, cpu, load, processes, osInfo] = await Promise.all([
-    si.mem(),
-    si.cpu(),
-    si.currentLoad(),
-    si.processes(),
-    si.osInfo()
-  ]);
-  return analyze({ mem, cpu, load, processes, osInfo });
+  const [mem, cpu, load, processes, osInfo, memLayout, baseboard, diskLayout, fsSize] =
+    await Promise.all([
+      si.mem(),
+      si.cpu(),
+      si.currentLoad(),
+      si.processes(),
+      si.osInfo(),
+      si.memLayout(),
+      si.baseboard(),
+      si.diskLayout(),
+      si.fsSize()
+    ]);
+  return analyze({ mem, cpu, load, processes, osInfo, memLayout, baseboard, diskLayout, fsSize });
 });
 
 ipcMain.handle('open-external', (_e, url) => shell.openExternal(url));

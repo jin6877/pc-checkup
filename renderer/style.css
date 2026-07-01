@@ -96,6 +96,46 @@ body {
 .verdict .v-label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 .verdict .v-text { font-size: 18px; line-height: 1.55; margin-top: 8px; font-weight: 600; }
 
+/* 섹션 제목 */
+.section-title {
+  font-size: 15px; margin: 26px 2px 12px; display: flex; align-items: baseline; gap: 10px;
+}
+.section-title span { font-size: 12px; color: var(--muted); font-weight: 400; }
+
+/* 구매 추천 카드 */
+.buy-grid { display: grid; gap: 12px; }
+.buy-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-left: 4px solid var(--line); border-radius: 14px; padding: 16px 18px;
+}
+.buy-card.warn { border-left-color: var(--amber); }
+.buy-card.ok   { border-left-color: var(--green); }
+.buy-card.none { border-left-color: #5a6478; opacity: .82; }
+
+.buy-head { display: flex; align-items: center; gap: 12px; }
+.buy-icon { font-size: 24px; }
+.buy-title { font-size: 15px; font-weight: 700; }
+.buy-current { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.buy-action {
+  margin-left: auto; flex-shrink: 0; font-size: 12px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px; white-space: nowrap;
+}
+.buy-action.warn { background: #4a3a14; color: var(--amber); }
+.buy-action.ok   { background: #143a26; color: var(--green); }
+.buy-action.none { background: #2a3040; color: #9aa6bd; }
+
+.buy-box {
+  margin-top: 12px; background: var(--bg2); border: 1px dashed var(--cyan-dim);
+  border-radius: 10px; padding: 12px 14px;
+}
+.buy-tag {
+  display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .5px;
+  color: var(--cyan); background: rgba(53,224,208,.12); padding: 2px 8px; border-radius: 6px;
+  margin-bottom: 7px;
+}
+.buy-box b { display: block; font-size: 15.5px; line-height: 1.5; color: var(--text); }
+.buy-reason { font-size: 13px; color: var(--muted); line-height: 1.65; margin-top: 11px; }
+
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
 @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
 

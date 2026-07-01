@@ -64,6 +64,14 @@ function render(d) {
       <div class="v-text">${escapeHtml(d.verdict)}</div>
     </div>
 
+    <h2 class="section-title">🛒 무엇을 사면 좋을까 <span>내 하드웨어 기준 맞춤 추천</span></h2>
+    <div class="buy-grid">
+      ${buyCard('🧠', '메모리 (램)', d.ramPlan)}
+      ${buyCard('⚡', 'CPU', d.cpuPlan)}
+      ${buyCard('💾', '저장장치 (SSD)', d.storagePlan)}
+    </div>
+
+    <h2 class="section-title">📊 지금 상태</h2>
     <div class="grid">
       <div class="card">
         <h3>메모리(램) <span class="pill ${m.level}">${levelKo(m.level)}</span></h3>
@@ -108,6 +116,49 @@ function render(d) {
   `;
 
   $('rescanBtn').addEventListener('click', runScan);
+}
+
+// 플랜 종류별 현재 상태 요약 줄
+function planCurrent(title, p) {
+  if (title.includes('램')) {
+    const slotTxt = p.slots ? ` · 슬롯 ${p.populated}/${p.slots} 사용` : '';
+    const maxTxt = p.maxGB ? ` · 최대 ${p.maxGB}GB` : '';
+    return `${escapeHtml(p.config)}${p.spec ? ` (${escapeHtml(p.spec)})` : ''}${slotTxt}${maxTxt}`;
+  }
+  if (title.includes('CPU')) {
+    return `${escapeHtml(p.brand)}${p.cores ? ` · ${p.cores}코어` : ''}${p.socket ? ` · 소켓 ${escapeHtml(p.socket)}` : ''}`;
+  }
+  // 저장장치
+  const list = (p.disks || []).map(dk => `${escapeHtml(dk.kind)} ${dk.sizeGB >= 1024 ? (dk.sizeGB/1024).toFixed(dk.sizeGB%1024?1:0)+'TB' : dk.sizeGB+'GB'}`).join(', ');
+  const usage = p.usedPercent != null ? ` · ${p.usedPercent}% 사용(여유 ${p.freeGB}GB)` : '';
+  return `${list || '디스크 정보'}${usage}`;
+}
+
+// 액션 배지 색상: 살 필요 있음(warn) / 불가(none) / 충분(ok)
+function planTone(p) {
+  if (p.buyable === false) return 'none';
+  if (p.buy) return 'warn';
+  return 'ok';
+}
+
+function buyCard(icon, title, p) {
+  const tone = planTone(p);
+  const buyHtml = p.buy
+    ? `<div class="buy-box"><span class="buy-tag">이렇게 사세요</span><b>${escapeHtml(p.buy)}</b></div>`
+    : '';
+  return `
+    <div class="buy-card ${tone}">
+      <div class="buy-head">
+        <span class="buy-icon">${icon}</span>
+        <div>
+          <div class="buy-title">${title}</div>
+          <div class="buy-current">${planCurrent(title, p)}</div>
+        </div>
+        <span class="buy-action ${tone}">${escapeHtml(p.action)}</span>
+      </div>
+      ${buyHtml}
+      <p class="buy-reason">${escapeHtml(p.reason)}</p>
+    </div>`;
 }
 
 function escapeHtml(s) {
