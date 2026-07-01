@@ -1,0 +1,38 @@
+name: Build Windows Installer
+
+# v로 시작하는 태그(v0.1.0 등)를 push하면 Windows용 설치파일을 빌드해
+# 같은 이름의 릴리스에 자동으로 첨부한다.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build installer
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/PC-Checkup-Setup.exe
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

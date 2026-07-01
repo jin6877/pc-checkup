@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PC 점검 — 내 PC에 맞는 사양, 1초 만에</title>
+<meta name="description" content="지금 켜둔 프로그램을 점검해 알맞은 램·CPU 사양을 알려주는 무료 Windows 진단 프로그램." />
+<meta property="og:title" content="PC 점검 — 내 PC에 맞는 사양, 1초 만에" />
+<meta property="og:description" content="켜둔 프로그램을 분석해 램 업그레이드가 필요한지 알려드려요." />
+<style>
+:root{
+  --bg:#0b1220; --card:#16233b; --line:#26385a; --text:#e6edf7; --muted:#8ea1c2;
+  --cyan:#35e0d0; --cyan-dim:#1f8f87; --amber:#ffb84d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,"Segoe UI","Malgun Gothic",Roboto,sans-serif;
+  background:radial-gradient(1200px 700px at 75% -15%,#17324f 0%,var(--bg) 55%);
+  color:var(--text);min-height:100vh;line-height:1.6;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+header{display:flex;align-items:center;gap:12px;padding:26px 0}
+header .logo{font-size:30px}
+header b{font-size:18px;letter-spacing:-.3px}
+
+.hero{text-align:center;padding:44px 0 30px}
+.hero .kicker{color:var(--cyan);font-weight:700;font-size:14px;letter-spacing:1px}
+.hero h1{font-size:44px;line-height:1.2;letter-spacing:-1px;margin:14px 0 16px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),#7af0e4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:17px;max-width:600px;margin:0 auto 30px}
+
+.cta{display:inline-flex;flex-direction:column;align-items:center;gap:10px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-dim));
+  color:#04231f;font-weight:800;font-size:17px;text-decoration:none;
+  padding:16px 34px;border-radius:14px;
+  box-shadow:0 12px 32px -10px rgba(53,224,208,.55);transition:transform .12s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn small{font-weight:600;opacity:.75;font-size:12px}
+.cta .os{color:var(--muted);font-size:13px}
+
+.shot{
+  margin:46px auto 0;max-width:720px;background:var(--card);
+  border:1px solid var(--line);border-radius:18px;padding:20px;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6)
+}
+.shot .bar{display:flex;gap:6px;margin-bottom:14px}
+.shot .bar i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.mock-verdict{background:linear-gradient(135deg,#3a1717,#2a1010);border:1px solid #7a2b2b;border-radius:12px;padding:16px 18px;text-align:left}
+.mock-verdict .l{font-size:11px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.mock-verdict .t{font-size:17px;font-weight:700;margin-top:6px}
+.mock-verdict .t em{color:var(--cyan);font-style:normal}
+.mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.mock-cell{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:left}
+.mock-cell h4{font-size:12px;color:var(--muted);margin-bottom:8px}
+.mock-cell .big{font-size:26px;font-weight:800}
+.mock-cell .big.warn{color:var(--amber)}
+
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:64px 0}
+.feature{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.feature .fi{font-size:26px;margin-bottom:10px}
+.feature h3{font-size:16px;margin-bottom:6px}
+.feature p{color:var(--muted);font-size:14px}
+
+.steps{margin:20px 0 60px}
+.steps h2{text-align:center;font-size:26px;margin-bottom:26px;letter-spacing:-.5px}
+.step{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.step .n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--cyan);color:#04231f;font-weight:800;display:grid;place-items:center}
+.step .txt b{display:block;margin-bottom:2px}
+.step .txt p{color:var(--muted);font-size:14px}
+
+.notice{background:#1c1a12;border:1px solid #5a4a1f;border-radius:12px;padding:18px 20px;margin:0 0 60px}
+.notice h3{color:var(--amber);font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.notice p{color:var(--muted);font-size:14px}
+.notice b{color:var(--text)}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px;text-align:center;color:var(--muted);font-size:13px}
+footer a{color:var(--cyan);text-decoration:none}
+
+@media(max-width:680px){
+  .hero h1{font-size:32px}
+  .features{grid-template-columns:1fr}
+  .mock-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo">🩺</span>
+    <b>PC 점검</b>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">무료 · Windows</div>
+    <h1>내 PC, 램을 늘려야 할까?<br><span>점검 한 번으로 답을 드려요</span></h1>
+    <p>지금 켜둔 프로그램을 분석해서, 각 앱이 얼마나 메모리를 먹는지 보여주고
+       <b>내 사용 패턴에 맞는 램 용량</b>을 추천합니다.</p>
+
+    <div class="cta">
+      <a class="btn" id="dl" href="https://github.com/jin6877/pc-checkup/releases/latest/download/PC-Checkup-Setup.exe">
+        ⬇️ Windows용 다운로드 <small>(.exe)</small>
+      </a>
+      <span class="os">Windows 10 / 11 · 약 80MB · 설치형</span>
+    </div>
+
+    <div class="shot">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="mock-verdict">
+        <div class="l">종합 진단</div>
+        <div class="t">지금 사용 패턴이면 램을 <em>32GB</em>로 늘리는 걸 추천해요. (현재 16GB)</div>
+      </div>
+      <div class="mock-grid">
+        <div class="mock-cell">
+          <h4>메모리 사용률</h4>
+          <div class="big warn">79%</div>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px">12.7GB / 16GB · 스왑 4.8GB</p>
+        </div>
+        <div class="mock-cell">
+          <h4>가장 많이 쓰는 앱</h4>
+          <div class="big" style="font-size:18px">🌐 Chrome 2.8GB</div>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px">🛠️ VS Code 1.4GB …</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <div class="fi">🔍</div>
+      <h3>실행 중인 앱 분석</h3>
+      <p>지금 켜둔 프로그램과 프로세스가 먹는 메모리·CPU를 실시간으로 읽어 정리합니다.</p>
+    </div>
+    <div class="feature">
+      <div class="fi">📈</div>
+      <h3>맞춤 사양 추천</h3>
+      <p>사용량에 여유를 두고 계산해 8·16·32·64GB 중 딱 맞는 램 용량을 알려드려요.</p>
+    </div>
+    <div class="feature">
+      <div class="fi">🔒</div>
+      <h3>내 PC 안에서만</h3>
+      <p>모든 분석은 로컬에서 처리되고 어떤 데이터도 외부로 전송하지 않습니다.</p>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2>쓰는 법은 딱 3단계</h2>
+    <div class="step"><div class="n">1</div><div class="txt"><b>다운로드 후 설치</b><p>위 버튼으로 설치 파일을 받아 실행합니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div class="txt"><b>「점검 시작」 클릭</b><p>어떤 정보를 읽는지 안내를 확인하고 동의하면 점검이 시작돼요.</p></div></div>
+    <div class="step"><div class="n">3</div><div class="txt"><b>결과 확인</b><p>램을 늘려야 할지, 어떤 앱이 무거운지 한눈에 확인합니다.</p></div></div>
+  </section>
+
+  <section class="notice">
+    <h3>⚠️ 설치할 때 "Windows의 PC 보호" 경고가 뜬다면</h3>
+    <p>개인 개발자가 만든 무료 프로그램이라 <b>디지털 서명(코드 사이닝)</b>이 없어서 나오는 정상적인 안내입니다.
+       바이러스가 아니며, <b>「추가 정보」 → 「실행」</b>을 누르면 설치할 수 있어요.
+       불안하면 설치 후 백신으로 검사해 보셔도 됩니다.</p>
+  </section>
+
+  <footer>
+    오픈소스로 공개됩니다 · <a href="https://github.com/jin6877/pc-checkup">GitHub에서 코드 보기</a><br>
+    © 2026 PC 점검
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC 점검</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🩺</span>
+      <div>
+        <h1>PC 점검</h1>
+        <p class="sub">지금 켜둔 프로그램을 분석해 알맞은 사양을 알려드려요</p>
+      </div>
+    </div>
+    <span class="badge" id="sysBadge"></span>
+  </header>
+
+  <!-- 1) 시작 / 동의 화면 -->
+  <section id="intro" class="panel intro">
+    <div class="intro-card">
+      <div class="intro-icon">🔍</div>
+      <h2>점검을 시작할까요?</h2>
+      <p class="consent">
+        점검을 누르면 이 프로그램이 <b>현재 실행 중인 프로그램 목록</b>과
+        각 프로그램의 <b>메모리·CPU 사용량</b>, <b>내 PC의 램/CPU 사양</b>을 읽습니다.
+      </p>
+      <ul class="consent-list">
+        <li>✅ 모든 분석은 <b>이 PC 안에서만</b> 이뤄집니다.</li>
+        <li>✅ 어떤 정보도 <b>외부로 전송하지 않습니다.</b></li>
+        <li>✅ 파일 내용을 열어보지 않고 <b>사용량 수치만</b> 확인합니다.</li>
+      </ul>
+      <button id="startBtn" class="btn-primary">동의하고 점검 시작</button>
+      <p class="tiny">언제든지 창을 닫으면 즉시 중단됩니다.</p>
+    </div>
+  </section>
+
+  <!-- 2) 로딩 -->
+  <section id="loading" class="panel loading hidden">
+    <div class="spinner"></div>
+    <p>실행 중인 프로그램을 점검하고 있어요…</p>
+  </section>
+
+  <!-- 3) 결과 -->
+  <section id="result" class="panel hidden"></section>
+
+  <script src="app.js"></script>
+</body>
+</html>
